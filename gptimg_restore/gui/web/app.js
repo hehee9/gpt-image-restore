@@ -49,7 +49,7 @@ const els = {
 const state = {
     backend: null,
     info: null,
-    preset: "balanced",
+    preset: "strong",
     overrides: new Map(),
     dotsMode: "conservative",
     output: { format: "png", bitDepth: 8, quality: 90 },
