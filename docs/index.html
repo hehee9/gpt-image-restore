@@ -1,0 +1,76 @@
+<!doctype html>
+<!--
+THESIS: 갤러리가 아닌 확대경 작업대. 전체 이미지에서 보고 싶은 곳을 직접 확대해 8비트 몇 단계 차이의 노이즈를 픽셀 단위로 확인함. 흔한 히어로와 카드 격자는 쓰지 않음.
+OWN-WORLD: 색 판단을 흐리지 않는 무채색 흑연 배경, 유일한 강조색은 흰색(슬라이더, 선택 상태), 시스템 한글 산세리프, 고정폭은 표기용으로만 사용.
+STORY: 방문자는 항목마다 원본과 복원을 같은 자리에서 밀어 보고, 휠이나 두 손가락으로 확대해 해칭, 격자, 반점이 사라진 것을 직접 확인함.
+FIRST VIEWPORT: 상단에 제목 한 줄과 항목 색인(미리보기 띠), 그 아래 첫 항목의 비교 화면이 화면 대부분을 차지함.
+FORM: 이미지 비교 뷰어. 전체 이미지를 확대, 이동하며 비교하고, 확대 화면은 화면 픽셀 정수 배율과 픽셀 그대로 렌더링.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>gpt-image-restore: before and after</title>
+  <meta name="description" content="Before-and-after comparisons of GPT Image 2.6 noise removal" data-i18n-content="page.description">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="site.css">
+  <script src="i18n.js" defer></script>
+  <script src="site.js" defer></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-bar">
+      <a class="wordmark" href="https://github.com/hehee9/gpt-image-restore">gpt-image-restore</a>
+      <select class="locale" id="locale" aria-label="Language" data-i18n-label="locale.label"></select>
+    </div>
+    <h1 data-i18n="page.heading">GPT Image 2.6 noise removal: before and after</h1>
+    <nav class="index" aria-label="Comparisons" data-i18n-label="nav.index" hidden>
+      <ol id="index-list"></ol>
+    </nav>
+  </header>
+
+  <main id="items"></main>
+  <p class="status" id="status" role="status" hidden></p>
+
+  <footer class="colophon">
+    <p data-i18n="footer.notice">The sample images are AI-generated with GPT Image 2.6 and are only for demonstrating before-and-after results. They are not covered by the project's AGPL license, and reuse is not permitted.</p>
+    <a href="https://github.com/hehee9/gpt-image-restore" data-i18n="footer.repo">GitHub repository</a>
+  </footer>
+
+  <template id="item-template">
+    <section class="item">
+      <header class="item-head">
+        <h2><a class="item-link"></a></h2>
+      </header>
+      <div class="toolbar">
+        <div class="versions" role="group" data-i18n-label="toolbar.versions"></div>
+        <div class="tools">
+          <button type="button" class="tool boost" aria-pressed="false" data-i18n="tool.boost"></button>
+        </div>
+      </div>
+      <div class="stage-wrap">
+        <div class="stage">
+          <div class="plane">
+            <img class="layer after" alt="" loading="lazy" decoding="async" draggable="false">
+            <canvas class="layer boost-layer after" aria-hidden="true"></canvas>
+          </div>
+          <div class="clip">
+            <div class="plane">
+              <img class="layer before" alt="" loading="lazy" decoding="async" draggable="false">
+              <canvas class="layer boost-layer before" aria-hidden="true"></canvas>
+            </div>
+          </div>
+          <span class="tag tag-before" data-i18n="version.original"></span>
+          <span class="tag tag-after"></span>
+          <div class="divider" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+            <span class="knob" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="22" height="22"><path d="M9 6 3 12l6 6M15 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </template>
+</body>
+</html>

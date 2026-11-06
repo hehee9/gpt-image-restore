@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>GPT Image Restore</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="app.css">
+    <script type="module" src="app.js"></script>
+</head>
+<body class="is-empty">
+    <div class="app">
+        <header class="app-head">
+            <h1 data-i18n="app.title">GPT Image Restore</h1>
+            <div class="locale">
+                <svg class="locale-globe" viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><circle cx="10" cy="10" r="7.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2.75 10h14.5M10 2.75c-2.2 2.1-3.1 4.5-3.1 7.25s.9 5.15 3.1 7.25c2.2-2.1 3.1-4.5 3.1-7.25S12.2 4.85 10 2.75Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                <select id="locale-select" aria-label="Language" data-i18n-aria-label="language.label"></select>
+                <svg class="locale-chevron" viewBox="0 0 20 20" width="12" height="12" aria-hidden="true"><path d="m6 8 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+        </header>
+
+        <main class="workspace">
+            <section class="viewer" id="viewer" aria-label="Before and after" data-i18n-aria-label="viewer.label">
+                <div class="layer layer-before">
+                    <img id="img-before" alt="" draggable="false">
+                    <span class="tag tag-before" data-i18n="viewer.before">Original</span>
+                </div>
+                <div class="layer layer-after" id="layer-after">
+                    <img id="img-after" alt="" draggable="false">
+                    <span class="tag tag-after" data-i18n="viewer.after">Restored</span>
+                </div>
+                <div class="split" id="split" role="slider" tabindex="0" aria-label="Split position" data-i18n-aria-label="viewer.split"
+                     aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                    <span class="split-knob" aria-hidden="true">
+                        <svg viewBox="0 0 20 20" width="16" height="16"><path d="M7 5 2 10l5 5M13 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                </div>
+                <div class="viewer-progress" id="viewer-progress" aria-hidden="true"><span></span></div>
+
+                <div class="zoom" role="group" aria-label="Zoom" data-i18n-aria-label="zoom.label">
+                    <button type="button" class="icon-btn" data-zoom="out" aria-label="Zoom out" data-i18n-aria-label="zoom.out">
+                        <svg viewBox="0 0 20 20" width="16" height="16"><path d="M5 10h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    </button>
+                    <button type="button" class="text-btn" data-zoom="fit" data-i18n="zoom.fit">Fit</button>
+                    <button type="button" class="text-btn" data-zoom="actual">100%</button>
+                    <button type="button" class="icon-btn" data-zoom="in" aria-label="Zoom in" data-i18n-aria-label="zoom.in">
+                        <svg viewBox="0 0 20 20" width="16" height="16"><path d="M5 10h10M10 5v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    </button>
+                </div>
+
+                <div class="empty">
+                    <svg class="empty-mark" viewBox="0 0 48 48" width="44" height="44" aria-hidden="true">
+                        <rect x="6" y="10" width="36" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <path d="m6 32 10-9 8 7 6-5 12 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        <circle cx="31" cy="19" r="3" fill="currentColor"/>
+                    </svg>
+                    <p data-i18n="empty.drop">Drop images here</p>
+                    <button type="button" class="btn" data-action="add" data-i18n="empty.pick">Choose files</button>
+                </div>
+            </section>
+
+            <nav class="queue" aria-label="Images" data-i18n-aria-label="queue.label">
+                <ol class="queue-list" id="queue-list"></ol>
+                <button type="button" class="queue-add" data-action="add" aria-label="Add images" data-i18n-aria-label="queue.add">
+                    <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M4 10h12M10 4v12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+            </nav>
+
+            <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+        </main>
+
+        <aside class="panel" aria-label="Settings" data-i18n-aria-label="panel.label">
+            <div class="panel-body">
+                <section class="group">
+                    <h2 id="h-preset" data-i18n="preset.heading">Preset</h2>
+                    <div class="seg" role="radiogroup" aria-labelledby="h-preset">
+                        <label><input type="radio" name="preset" value="safe"><span data-i18n="preset.safe">Safe</span></label>
+                        <label><input type="radio" name="preset" value="balanced" checked><span data-i18n="preset.balanced">Balanced</span></label>
+                        <label><input type="radio" name="preset" value="strong"><span data-i18n="preset.strong">Strong</span></label>
+                    </div>
+                </section>
+
+                <section class="group">
+                    <h2 id="h-dots" data-i18n="dots.heading">Dot detection</h2>
+                    <div class="seg" role="radiogroup" aria-labelledby="h-dots">
+                        <label><input type="radio" name="dots-mode" value="conservative" checked><span data-i18n="dots.conservative">Narrow</span></label>
+                        <label><input type="radio" name="dots-mode" value="strict"><span data-i18n="dots.strict">Wide</span></label>
+                    </div>
+                </section>
+
+                <details class="group stages" id="stages">
+                    <summary>
+                        <h2 data-i18n="stages.heading">Stage strength</h2>
+                        <span class="override-dot" aria-hidden="true"></span>
+                        <svg class="chevron" viewBox="0 0 20 20" width="14" height="14" aria-hidden="true"><path d="m6 8 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </summary>
+                    <div class="stage-list" id="stage-list"></div>
+                    <button type="button" class="link-btn" id="stage-reset" data-i18n="stages.reset" hidden>Reset to preset</button>
+                </details>
+
+                <section class="group">
+                    <h2 id="h-format" data-i18n="output.heading">Output</h2>
+                    <div class="seg" role="radiogroup" aria-labelledby="h-format">
+                        <label><input type="radio" name="format" value="png" checked><span>PNG</span></label>
+                        <label><input type="radio" name="format" value="jpg"><span>JPG</span></label>
+                        <label><input type="radio" name="format" value="webp"><span>WebP</span></label>
+                    </div>
+                    <div class="field" id="bit-depth-row">
+                        <span class="field-label" id="h-depth" data-i18n="output.bitDepth">Bit depth</span>
+                        <div class="seg seg-compact" role="radiogroup" aria-labelledby="h-depth">
+                            <label><input type="radio" name="bit-depth" value="8" checked><span>8</span></label>
+                            <label><input type="radio" name="bit-depth" value="16"><span>16</span></label>
+                        </div>
+                    </div>
+                    <div class="slider-row" id="quality-row" hidden>
+                        <label for="quality" data-i18n="output.quality">Quality</label>
+                        <output id="quality-value" for="quality">90</output>
+                        <input type="range" id="quality" min="0" max="100" step="1" value="90">
+                    </div>
+                </section>
+            </div>
+
+            <footer class="panel-foot">
+                <button type="button" class="export" id="export" disabled>
+                    <span class="export-fill" id="export-fill"></span>
+                    <span class="export-label" id="export-label">Export</span>
+                </button>
+                <a class="repo-link" href="https://github.com/hehee9/gpt-image-restore" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg>
+                    <span>GitHub</span>
+                </a>
+            </footer>
+        </aside>
+    </div>
+
+    <div class="drop-veil" id="drop-veil" aria-hidden="true"><p data-i18n="drop.add">Drop to add</p></div>
+    <input type="file" id="file-input" accept=".png,.jpg,.jpeg,.webp" multiple hidden>
+</body>
+</html>

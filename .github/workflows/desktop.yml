@@ -1,0 +1,103 @@
+name: Desktop builds
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {runner: windows-latest, os: windows, arch: x64}
+          - {runner: macos-14, os: macos, arch: arm64}
+          - {runner: macos-15-intel, os: macos, arch: x64}
+          - {runner: ubuntu-22.04, os: linux, arch: x64}
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install GTK and WebKit
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev libgirepository1.0-dev libcairo2-dev pkg-config
+      - name: Install dependencies
+        shell: bash
+        run: |
+          # Ubuntu 22.04 provides girepository-1.0; PyGObject 3.52+ requires girepository-2.0.
+          linux_pins=()
+          if [[ "${{ runner.os }}" == "Linux" ]]; then linux_pins=('PyGObject<3.52'); fi
+          python -m pip install cython pyinstaller psutil '.[gui]' "${linux_pins[@]}"
+      - name: Build extensions
+        run: python setup.py build_ext --inplace
+      - name: Build application
+        run: python -m PyInstaller --noconfirm packaging/gpt-image-restore-gui.spec
+      - name: Smoke test
+        shell: bash
+        run: |
+          if [[ "${{ runner.os }}" == "macOS" ]]; then
+            exe="dist/GPT Image Restore.app/Contents/MacOS/gpt-image-restore-gui"
+          elif [[ "${{ runner.os }}" == "Windows" ]]; then
+            exe="dist/gpt-image-restore-gui/gpt-image-restore-gui.exe"
+          else
+            exe="dist/gpt-image-restore-gui/gpt-image-restore-gui"
+          fi
+          "$exe" --process docs/media/handbag/original.webp smoke.png
+          test -s smoke.png
+      - name: Measure requirements
+        run: python tools/measure_requirements.py --image docs/media/handbag/original.webp --cores 0 --out requirements-${{ matrix.os }}-${{ matrix.arch }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: requirements-${{ matrix.os }}-${{ matrix.arch }}
+          path: requirements-${{ matrix.os }}-${{ matrix.arch }}.json
+      - name: Package application
+        shell: bash
+        run: |
+          name="gpt-image-restore-gui-${{ matrix.os }}-${{ matrix.arch }}"
+          if [[ "${{ runner.os }}" == "macOS" ]]; then
+            bundle="dist/GPT Image Restore.app"
+          else
+            bundle="dist/gpt-image-restore-gui"
+          fi
+          python tools/collect_licenses.py "$bundle" THIRD-PARTY-NOTICES.txt
+
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            cp LICENSE "$bundle/"
+            cp THIRD-PARTY-NOTICES.txt "$bundle/"
+            7z a "$name.zip" ./dist/gpt-image-restore-gui
+          elif [[ "${{ runner.os }}" == "macOS" ]]; then
+            mkdir -p "dist/package/GPT Image Restore"
+            ditto "dist/GPT Image Restore.app" "dist/package/GPT Image Restore/GPT Image Restore.app"
+            cp LICENSE "dist/package/GPT Image Restore/"
+            cp THIRD-PARTY-NOTICES.txt "dist/package/GPT Image Restore/"
+            ditto -c -k --sequesterRsrc --keepParent "dist/package/GPT Image Restore" "$name.zip"
+          else
+            cp LICENSE "$bundle/"
+            cp THIRD-PARTY-NOTICES.txt "$bundle/"
+            tar -czf "$name.tar.gz" -C dist gpt-image-restore-gui
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gpt-image-restore-gui-${{ matrix.os }}-${{ matrix.arch }}
+          path: gpt-image-restore-gui-${{ matrix.os }}-${{ matrix.arch }}.*
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: gpt-image-restore-gui-*
+          merge-multiple: true
+          path: packages
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$GITHUB_REF_NAME" || gh release create "$GITHUB_REF_NAME" --generate-notes
+          gh release upload "$GITHUB_REF_NAME" packages/* --clobber

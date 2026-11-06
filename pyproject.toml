@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=77", "Cython>=3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gpt-image-restore"
+version = "0.1.0"
+requires-python = ">=3.10"
+description = "Reduce hatching, periodic patterns, bright dots and other generation noise in GPT Image outputs"
+readme = "README.md"
+license = "AGPL-3.0-or-later"
+license-files = ["LICENSE"]
+authors = [{name = "hehee9"}]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Multimedia :: Graphics",
+    "Intended Audience :: End Users/Desktop",
+]
+dependencies = ["numpy", "scipy", "Pillow", "opencv-python-headless"]
+
+[project.urls]
+Homepage = "https://hehee9.github.io/gpt-image-restore/"
+Repository = "https://github.com/hehee9/gpt-image-restore"
+
+[project.optional-dependencies]
+gpu = ["cupy-cuda12x==13.6.0", "nvidia-cuda-runtime-cu12==12.8.90", "nvidia-cuda-nvrtc-cu12==12.8.93", "nvidia-cufft-cu12==11.3.3.83"]
+gui = ["pywebview>=5.4", "pywebview[gtk]>=5.4; sys_platform == 'linux'"]
+
+[project.gui-scripts]
+gpt-image-restore-gui = "gptimg_restore.gui.app:main"
+
+[tool.setuptools]
+py-modules = ["restore_gpt_image"]
+
+[tool.setuptools.packages.find]
+include = ["gptimg_restore*"]
+
+[tool.setuptools.package-data]
+gptimg_restore = ["blue_noise_thresholds.npy"]
+"gptimg_restore.gui" = ["web/*"]

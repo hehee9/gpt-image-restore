@@ -1,0 +1,138 @@
+{
+  "items": [
+    {
+      "id": "handbag",
+      "title": "광택 가죽 핸드백",
+      "width": 1312,
+      "height": 1199,
+      "images": {
+        "original": "media/handbag/original.webp",
+        "balanced": "media/handbag/balanced.webp",
+        "strong": "media/handbag/strong.webp"
+      },
+      "preview": "previews/handbag.png",
+      "view": [
+        106,
+        700,
+        373,
+        341
+      ]
+    },
+    {
+      "id": "poster",
+      "title": "영어 안내 포스터",
+      "width": 1199,
+      "height": 1312,
+      "images": {
+        "original": "media/poster/original.webp",
+        "balanced": "media/poster/balanced.webp",
+        "strong": "media/poster/strong.webp"
+      },
+      "preview": "previews/poster.png",
+      "view": [
+        420,
+        503,
+        466,
+        510
+      ]
+    },
+    {
+      "id": "cel-illustration",
+      "title": "셀 채색 일러스트",
+      "width": 1024,
+      "height": 1536,
+      "images": {
+        "original": "media/cel-illustration/original.webp",
+        "balanced": "media/cel-illustration/balanced.webp",
+        "strong": "media/cel-illustration/strong.webp"
+      },
+      "preview": "previews/cel-illustration.png",
+      "view": [
+        293,
+        118,
+        170,
+        255
+      ]
+    },
+    {
+      "id": "portrait",
+      "title": "흐린 숲 배경 인물 사진",
+      "width": 1535,
+      "height": 1024,
+      "images": {
+        "original": "media/portrait/original.webp",
+        "balanced": "media/portrait/balanced.webp",
+        "strong": "media/portrait/strong.webp"
+      },
+      "preview": "previews/portrait.png",
+      "view": [
+        472,
+        125,
+        510,
+        340
+      ]
+    },
+    {
+      "id": "teapot",
+      "title": "어두운 배경의 무광 찻주전자",
+      "width": 1536,
+      "height": 1024,
+      "images": {
+        "original": "media/teapot/original.webp",
+        "balanced": "media/teapot/balanced.webp",
+        "strong": "media/teapot/strong.webp"
+      },
+      "preview": "previews/teapot.png",
+      "view": [
+        543,
+        604,
+        510,
+        340
+      ]
+    },
+    {
+      "id": "soup",
+      "title": "흰 접시의 호박 수프",
+      "width": 1536,
+      "height": 1024,
+      "images": {
+        "original": "media/soup/original.webp",
+        "balanced": "media/soup/balanced.webp",
+        "strong": "media/soup/strong.webp"
+      },
+      "preview": "previews/soup.png",
+      "view": [
+        64,
+        168,
+        766,
+        510
+      ]
+    }
+  ],
+  "files": [
+    "media/handbag/original.webp",
+    "media/handbag/balanced.webp",
+    "media/handbag/strong.webp",
+    "previews/handbag.png",
+    "media/poster/original.webp",
+    "media/poster/balanced.webp",
+    "media/poster/strong.webp",
+    "previews/poster.png",
+    "media/cel-illustration/original.webp",
+    "media/cel-illustration/balanced.webp",
+    "media/cel-illustration/strong.webp",
+    "previews/cel-illustration.png",
+    "media/portrait/original.webp",
+    "media/portrait/balanced.webp",
+    "media/portrait/strong.webp",
+    "previews/portrait.png",
+    "media/teapot/original.webp",
+    "media/teapot/balanced.webp",
+    "media/teapot/strong.webp",
+    "previews/teapot.png",
+    "media/soup/original.webp",
+    "media/soup/balanced.webp",
+    "media/soup/strong.webp",
+    "previews/soup.png"
+  ]
+}
