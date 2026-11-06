@@ -225,6 +225,8 @@ def test_webview_storage_path_is_per_user_and_created(tmp_path, platform, uses_x
 ])
 def test_worker_runtime_maps_progress_stage(monkeypatch, stage, expected):
     worker_path = Path(app.__file__).parent / "web" / "worker-runtime.py"
+    if not worker_path.exists():
+        pytest.skip("web worker runtime is not included in this checkout")
     spec = importlib.util.spec_from_file_location("gptimg_restore_worker_runtime", worker_path)
     worker = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(worker)

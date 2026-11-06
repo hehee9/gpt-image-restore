@@ -10,3 +10,7 @@ dist/
 *.so
 gptimg_restore/_native_*.c
 showcase_inputs/
+site/
+gptimg_restore/gui/web/backend-web.js
+gptimg_restore/gui/web/pyodide-worker.js
+gptimg_restore/gui/web/worker-runtime.py
