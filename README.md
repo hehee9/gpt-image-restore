@@ -7,6 +7,8 @@
 
 
 
+### **[Web version](https://gpt-image-restore.hehee9.chatgpt.site)**
+
 ### **[Before/after comparison](https://hehee9.github.io/gpt-image-restore/)**
 
 **Zoom in and compare the original with the** `balanced` **and** `strong` **results.**
@@ -24,8 +26,8 @@ Reduces generation noise in GPT Image output, such as diagonal crosshatching, fi
 The original is on the left and the `strong` result is on the right, and the black-and-white images apply a contrast boost so the noise is easier to see. The examples were generated with GPT Image 2.6.
 
 ![English notice poster: original and restored comparison](docs/previews/poster.png)  
-![Cel-shaded illustration: original and restored comparison](docs/previews/cel-illustration.png)  
-![Pumpkin soup on a white plate: original and restored comparison](docs/previews/soup.png)
+![Matte teapot on a dark background: original and restored comparison](docs/previews/teapot.png)  
+![Glossy leather handbag: original and restored comparison](docs/previews/handbag.png)
 
 ---
 

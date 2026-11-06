@@ -7,6 +7,8 @@
 
 
 
+### **[웹 버전](https://gpt-image-restore.hehee9.chatgpt.site)**
+
 ### **[전후 비교 페이지](https://hehee9.github.io/gpt-image-restore/)**
 
 **위 링크에서 원본과** `balanced`**,** `strong` **보정 결과를 확대해 비교할 수 있습니다.**
@@ -24,8 +26,8 @@ GPT Image 결과물에 나타나는 대각선 노이즈, 미세한 주기 패턴
 왼쪽은 원본, 오른쪽은 `strong` 보정 결과이며, 흑백 이미지는 노이즈가 잘 보이도록 대비 강조를 적용한 것입니다. 예시는 GPT Image 2.6으로 생성한 이미지입니다.
 
 ![영어 안내 포스터: 원본과 보정 결과 비교](docs/previews/poster.png)  
-![셀 채색 일러스트: 원본과 보정 결과 비교](docs/previews/cel-illustration.png)  
-![흰 접시의 호박 수프: 원본과 보정 결과 비교](docs/previews/soup.png)
+![어두운 배경의 무광 찻주전자: 원본과 보정 결과 비교](docs/previews/teapot.png)  
+![광택 가죽 핸드백: 원본과 보정 결과 비교](docs/previews/handbag.png)
 
 ---
 

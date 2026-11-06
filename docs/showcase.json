@@ -1,24 +1,6 @@
 {
   "items": [
     {
-      "id": "handbag",
-      "title": "광택 가죽 핸드백",
-      "width": 1312,
-      "height": 1199,
-      "images": {
-        "original": "media/handbag/original.webp",
-        "balanced": "media/handbag/balanced.webp",
-        "strong": "media/handbag/strong.webp"
-      },
-      "preview": "previews/handbag.png",
-      "view": [
-        106,
-        700,
-        373,
-        341
-      ]
-    },
-    {
       "id": "poster",
       "title": "영어 안내 포스터",
       "width": 1199,
@@ -34,42 +16,6 @@
         503,
         466,
         510
-      ]
-    },
-    {
-      "id": "cel-illustration",
-      "title": "셀 채색 일러스트",
-      "width": 1024,
-      "height": 1536,
-      "images": {
-        "original": "media/cel-illustration/original.webp",
-        "balanced": "media/cel-illustration/balanced.webp",
-        "strong": "media/cel-illustration/strong.webp"
-      },
-      "preview": "previews/cel-illustration.png",
-      "view": [
-        293,
-        118,
-        170,
-        255
-      ]
-    },
-    {
-      "id": "portrait",
-      "title": "흐린 숲 배경 인물 사진",
-      "width": 1535,
-      "height": 1024,
-      "images": {
-        "original": "media/portrait/original.webp",
-        "balanced": "media/portrait/balanced.webp",
-        "strong": "media/portrait/strong.webp"
-      },
-      "preview": "previews/portrait.png",
-      "view": [
-        472,
-        125,
-        510,
-        340
       ]
     },
     {
@@ -91,6 +37,42 @@
       ]
     },
     {
+      "id": "handbag",
+      "title": "광택 가죽 핸드백",
+      "width": 1312,
+      "height": 1199,
+      "images": {
+        "original": "media/handbag/original.webp",
+        "balanced": "media/handbag/balanced.webp",
+        "strong": "media/handbag/strong.webp"
+      },
+      "preview": "previews/handbag.png",
+      "view": [
+        106,
+        700,
+        373,
+        341
+      ]
+    },
+    {
+      "id": "cel-illustration",
+      "title": "셀 채색 일러스트",
+      "width": 1024,
+      "height": 1536,
+      "images": {
+        "original": "media/cel-illustration/original.webp",
+        "balanced": "media/cel-illustration/balanced.webp",
+        "strong": "media/cel-illustration/strong.webp"
+      },
+      "preview": "previews/cel-illustration.png",
+      "view": [
+        293,
+        118,
+        170,
+        255
+      ]
+    },
+    {
       "id": "soup",
       "title": "흰 접시의 호박 수프",
       "width": 1536,
@@ -106,6 +88,24 @@
         168,
         766,
         510
+      ]
+    },
+    {
+      "id": "portrait",
+      "title": "흐린 숲 배경 인물 사진",
+      "width": 1535,
+      "height": 1024,
+      "images": {
+        "original": "media/portrait/original.webp",
+        "balanced": "media/portrait/balanced.webp",
+        "strong": "media/portrait/strong.webp"
+      },
+      "preview": "previews/portrait.png",
+      "view": [
+        472,
+        125,
+        510,
+        340
       ]
     }
   ],
